@@ -1,4 +1,4 @@
-# Browser Applications 
+# For Browser Applications
 ## install browserify
 ```
 npm install -g browserify
