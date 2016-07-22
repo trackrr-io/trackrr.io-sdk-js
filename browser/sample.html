@@ -1,0 +1,76 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>利用規約 - Trackrr.io | IoT/GPSトラッキングプラットフォーム</title>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"
+        type="text/css">
+  <link href="//pingendo.github.io/pingendo-bootstrap/themes/default/bootstrap.css" rel="stylesheet" type="text/css">
+  <link href="//pingendo.github.io/pingendo-bootstrap/themes/default/bootstrap.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.12/angular.js"></script>
+  <script type="text/javascript"
+          src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.12/angular-messages.min.js"></script>
+  <script type="text/javascript" src="aws-iot-sdk-browser-bundle.js"></script>
+  <script type="text/javascript" src="trackrr.io-sdk-js-bundle.js"></script>
+</head>
+<body class="service-site">
+<script>
+  angular.module("app", ['ngMessages'])
+    .controller("ctrl", function ($scope, $http, $timeout) {
+      $http.get("https://trackrr.io/api/gpsKeys/XXXXXXX").then(function (res) {
+        $scope.items = res.data;
+      });
+
+      $scope.go = function () {
+        var gpsKey = $scope.gpeKey;
+        var secret = 'XXXXXXXXXXXXXXXXXXXXXX';
+        var client = new GpsClientManager(gpsKey, secret);
+        client.on("connect", function () {
+          var watchId = navigator.geolocation.watchPosition(function (position) {
+              var gps = {};
+              gps.coords = {latitude: position.coords.latitude, longitude: position.coords.longitude};
+              client.publish(gps);
+              $timeout(function () {
+                $scope.msg = gps.coords;
+              });
+            },
+            function (err) {
+
+              //navigator.geolocation.clearWatch(watchId);
+              $timeout(function () {
+                $scope.msg = err.message;
+              });
+            },
+            {
+              enableHighAccuracy: true,
+              timeout: 5000,
+              maximumAge: 0
+            });
+        });
+      }
+    });
+</script>
+<div class="nav-adjust">
+  <div class="section">
+    <div class="container">
+      <div class="row" ng-app="app">
+        <div class="col-md-offset-3 col-md-6" ng-controller="ctrl">
+          <form class="" name="userForm" role="form" ng-submit="go()">
+            <div class="form-group">
+              <p class="text-info">自分を選択して、スタート</p>
+              <select ng-model="gpeKey" required ng-options="item.gpsKey as item.description for item in items">
+              </select>
+            </div>
+            <button typef="submit" class="btn btn-success" type="submit" ng-disabled="userForm.$invalid">start
+            </button>
+          </form>
+          <div>{{msg|json}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
