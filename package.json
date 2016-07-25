@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "gpsplotter sdk for js",
   "homepage": "https://trackrr.io",
+  "main": "lib/index.js",
   "author": {
     "name": "Trackrr.io",
     "email": "sdk@trackrr.io",
