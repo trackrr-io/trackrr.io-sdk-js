@@ -49,7 +49,9 @@ declare module 'trackrr.io-sdk-js' {
 	/**
 	 * Created by hasegawa on 2016/07/11.
 	 */
-	import GpsClientManager = require('GpsClientManager');
-	export = GpsClientManager;
+	import GpsClientManager = require('GpsClientManager'); var _default: {
+	    GpsClientManager: typeof GpsClientManager;
+	};
+	export = _default;
 
 }

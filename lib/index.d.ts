@@ -1,2 +1,5 @@
 import GpsClientManager = require('./GpsClientManager');
-export = GpsClientManager;
+declare var _default: {
+    GpsClientManager: typeof GpsClientManager;
+};
+export = _default;
