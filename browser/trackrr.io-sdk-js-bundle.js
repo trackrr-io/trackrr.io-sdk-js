@@ -6982,11 +6982,11 @@ GpsClientManager.AUTH_PROVIDER_HOST = 'provider.trackrr.io';
 module.exports = GpsClientManager;
 
 },{"aws-iot-device-sdk":"aws-iot-device-sdk","https":8}],36:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var GpsClientManager = require('./GpsClientManager');
-module.exports.GpsClientManager = GpsClientManager;
 module.exports = GpsClientManager;
+module.exports.GpsClientManager = GpsClientManager;
 
 },{"./GpsClientManager":35}]},{},[36])(36)
 });
